@@ -19,7 +19,7 @@ Step to production:
 
 Comprehensive ML platforms: Kubeflow and VertexAI.
 
-Service in VertexAI:
+**Service in VertexAI**:
 + Datasets
 + Feature store
 + Workbences > manage notebook and user manage notebook. In user manage notebook, we can setting the environment.
@@ -35,29 +35,27 @@ Service in VertexAI:
     **Cluestered tables**: is another optimization we can use with BigQuery. It is data sorted based on values in one or more columns. It can improve performance of aggregate of aggregate queries. It also can reduce scanning when cluster columns used in WHERE clause.
 
 + Dataflow and Dataproc: is designed for batch processing of large datasets. 
-    + Dataflow > horizontally scalable, managed service, and supports windowing operations. Windowing operations especially important when we working with streaming data and time series data. 
-    + Dataproc > managed Spark and Hadoop service. Dataproc often used for ETL and ELT. When we use Dataproc, we often create ephemeral clusters. Epheremal clusters means we start cluster when we need we run a job and then we shutdown the cluster.
+    + **Dataflow** > horizontally scalable, managed service, and supports windowing operations. Windowing operations especially important when we working with streaming data and time series data. 
+    + **Dataproc** > managed Spark and Hadoop service. Dataproc often used for ETL and ELT. When we use Dataproc, we often create ephemeral clusters. Epheremal clusters means we start cluster when we need we run a job and then we shutdown the cluster.
 
-Virtual machines:
+**Virtual machines**:
 + Compute engine > we can configure virtual machine.
 + Managed instance groups allow us to work with multiple identical virtual machines.
 + Containers > Cloud Run and Kubernetes Engine.
-    + Cloud Run: 
+    + **Cloud Run**: 
         + We can run containers in two modes, service and batch. Service mode for a machine learning algorithn that provides predictions. A containers always available, waiting us to call the API. Meanwhile, batch mode useful for thins like ETL.
         + Use for mircoservices and endpoints.
         + Use when minimizing administration is a priority.
-    + Kubernetes Engine:
+    + **Kubernetes Engine**:
         + Large scale container deployments.
         + We have control over cluster.        
 
 GPUs and TPUs: GPUs is for higher precision than TPUs.
 
-The courses also cover basic data preparation for machine learning and building machine learning models. I skip these parts because they are not relevant to me.
-
-Training machine learning: 
+**Training machine learning**: 
 + Hyperparameter tuning: please remember that hyperparameters are not learned! "Tune" means finding which combinations are the best. Methods that we can use include Grid Search, Random Search, and Bayesian Search. Bayesian Search is sequential model-based optimization. It use previous iteration to improve current iteration.
 + Unit tests: tests that run automatically in the CI/CD pipeline to prevent deploying an broken model. For example, feature engineering functionality, encoding inputs, custom modules, and output types.
-+ Distributed training: training a model across multiple nodes in a cluster.
++ **Distributed training**: training a model across multiple nodes in a cluster.
     + Available in VertexAI
     + Need to use a framework that supports distributed training, like TensorFlow.
     + Role of nodes in distributed training:
@@ -68,15 +66,21 @@ Training machine learning:
 
     Reduce training time with reduction server allow us to communicating gradients (when training model) between nodes. Reduction server requires use of GPUs. 
 
-Serving options: use pre-built containers like TensorFlow, TensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
+**Serving options**: we can use pre-built containers like TensorFlow, TensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also can use custom containers. The requirements for a custom container with VertexAI:
++ Provide a docker container image running HTTP server.
++ Responds to health checks, liveness checks, and predicition requests.
++ Each request and response must be 1.5MB or smaller.
++ Vertex Service AI Agent is Google managed service account, has sufficient permissions to work with custom containers.
+
+Other example of pre-build containers:
 + NVIDIA Triton is an open source inference serving platform optimized for CPUs and GPUs. VertexAI Prediction runs in custom container published by NVIDIA. These supports TensorFlow, PyTorch, TensorRT, Scikit-learn, and XGBoost. 
 + Optimized TensorFlow Runtime allow us to run TensorFlow models at lower cost and latecy than open source pre-built TensorFlow containers.
 
-Prediction services: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
+**Prediction services**: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
 
-Monitoring: VertexAI model monitors predicition input data fro skew and drift. **Skew** ㅡ feature data distribution in production deviates from training. **Drift** ㅡ feature data distribution in production changes significantly over time. Scope of monitoring: supports skew and drift detection for categorical and numerical features. Skew based on training data, meanwhile drfit based on recent past production data. When distance score between distributions exceed specified thresold identify as skew or drift. 
+**Monitoring**: VertexAI model monitors predicition input data fro skew and drift. **Skew** ㅡ feature data distribution in production deviates from training. **Drift** ㅡ feature data distribution in production changes significantly over time. Scope of monitoring: supports skew and drift detection for categorical and numerical features. Skew based on training data, meanwhile drfit based on recent past production data. When distance score between distributions exceed specified thresold identify as skew or drift. 
 
-Optimizing training pipeline: 
+**Optimizing pipeline**: 
 + Data processing:
     + If our data already in BigQuery and we use TensorFlow, we can use the BigQueryClient to access the data.
     + Keep in mind with BigQuery, our costs are in part based on how much data you scan. So use partition tables so we can minimize the amount of data scanned. 
@@ -98,3 +102,69 @@ Optimizing training pipeline:
     + Use base64 encoding when sending images.
     + Use batch predictions for large datasets.
     + Run services in same region to reduce ingress/egress charges. 
+
+### Basic Data Exploration
+
+Descriptive statistics: summarize information about distribution of values, central tendency, and spread of values.
+
+Encoding data: useful for categorical data, have several types including one-hot encoding ([1, 0, 0], [0, 1, 0], [0, 0, 1]), ordinal encoding ([1, 2, 3]), binary encoding (for example binary 2 > [0, 0], [1, 0], [0, 1]), and feature hashing (convert to vector).
+
+Feature selection: reduce the number of features to improve performance. 
++ Numeric input - numeric output:
+    + Pearson's Correlation: linear relationship, ratio between covariance of two variables and product of standard deviation.
+    + Spearman's Rank COefficient: non-linear relationship, based on rank value of two variables, high when variables have similar ranks.
++ Numeric input - categorical output (and vice versa):
+    + ANOVA: linear relationship, difference among means.
+    + Kendall's Rank Coefficient: non-linear relationship, ordinal association, rank correlation.
++ Categorical input - categorical output: 
+    + Chi-Squared test: measure likelihood observed difference happened by chance.
+    + Mutual information: measure of dependence between variables.
+
+Imbalanced datasets: 
++ Occurs when distribution of instances in a training set is skewed.
++ Too few examples of some class: majority class (more frequent class) and minority class (less frequent class).
++ Minority class often more important.
+
+Causes of imbalance:
++ Naturally
++ Biased sampling
++ Measurement errors
+
+Mitigating impact of imbalance data:
++ Collect more data.
++ Generate synthetic data (SMOTE).
++ Resampling.
++ Use decision tree algorithms.
+
+Feature crosses: is a type of synthetic features. 
++ Multiply (cross) two or more features to form a new feature. 
++ Usd to improve predictive capabilities of a model.
++ Especially useful with non-neural network algorithms.
+
+Handling missing data:
++ Delete rows with missing data: completely remove rows with missing data from the datasets.
+    + Advantages: removes instances that do not provide additional information.
+    + Disadvantages: loss of information related to other features, not practical when significant portion of datasets has missing values for some features.
++ Replace with central tendency value: use mean, median or mode for missing numeric values.
+    + Advantages: works well with small datasets.
+    + Disadvantages: can increase variance and bias in dataset, can cause data leakage (e.g. time series).
++ Assign a unique category: provides a single new category NA or missing.
+    + Advantages: reduces the chance of increasing variance because adding only one category.
+    + Disadvantages: add another feature value to a categorical value.
++ Predict missing value: use machine learning to predict it, like regressions for numeric value, and decision tree for categorical value.
+    + Advantages: unbiased relative to the rest of dataset.
+    + Disadvantages: cost and time of running predicitions.
++ Last observed value carried forward: use last known value. Useful for time series. 
+    + Variations: moving average and linear interpolation.
+
+Handling outliers: instances that are significantly different from ither instances. Causes:
+    + Data entry errors.
+    + Measurement errors.
+    + Data processing errors.
+    + Sampling errors.
+    + Naturally.
+
+Problems with outliers:
++ Increases variance.
++ Violate assumptionsof some statistical tests such regression and ANOVA.
++ Exception: outliers may be anomalies we want to detect.
