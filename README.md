@@ -69,7 +69,7 @@ Training machine learning:
 
     Reduce training time with reduction server allow us to communicating gradients (when training model) between nodes. Reduction server requires use of GPUs. 
 
-Serving options: use pre-built containers like TensorFlow, tensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
+Serving options: use pre-built containers like TensorFlow, TensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
     + NVIDIA Triton is an open source inference serving platform optimized for CPUs and GPUs. VertexAI Prediction runs in custom container published by NVIDIA. These supports TensorFlow, PyTorch, TensorRT, Scikit-learn, and XGBoost.
     + Optimized TensorFlow Runtime allow us to run TensorFlow models at lower cost and latecy than open source pre-built TensorFlow containers.
 
