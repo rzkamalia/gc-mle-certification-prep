@@ -55,7 +55,6 @@ GPUs and TPUs: GPUs is for higher precision than TPUs.
 The courses also cover basic data preparation for machine learning and building machine learning models. I skip these parts because they are not relevant to me.
 
 Training machine learning: 
-
 + Hyperparameter tuning: please remember that hyperparameters are not learned! "Tune" means finding which combinations are the best. Methods that we can use include Grid Search, Random Search, and Bayesian Search. Bayesian Search is sequential model-based optimization. It use previous iteration to improve current iteration.
 + Unit tests: tests that run automatically in the CI/CD pipeline to prevent deploying an broken model. For example, feature engineering functionality, encoding inputs, custom modules, and output types.
 + Distributed training: training a model across multiple nodes in a cluster.
@@ -70,8 +69,8 @@ Training machine learning:
     Reduce training time with reduction server allow us to communicating gradients (when training model) between nodes. Reduction server requires use of GPUs. 
 
 Serving options: use pre-built containers like TensorFlow, TensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
-    + NVIDIA Triton is an open source inference serving platform optimized for CPUs and GPUs. VertexAI Prediction runs in custom container published by NVIDIA. These supports TensorFlow, PyTorch, TensorRT, Scikit-learn, and XGBoost.
-    + Optimized TensorFlow Runtime allow us to run TensorFlow models at lower cost and latecy than open source pre-built TensorFlow containers.
++ NVIDIA Triton is an open source inference serving platform optimized for CPUs and GPUs. VertexAI Prediction runs in custom container published by NVIDIA. These supports TensorFlow, PyTorch, TensorRT, Scikit-learn, and XGBoost. 
++ Optimized TensorFlow Runtime allow us to run TensorFlow models at lower cost and latecy than open source pre-built TensorFlow containers.
 
 Prediction services: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
 
