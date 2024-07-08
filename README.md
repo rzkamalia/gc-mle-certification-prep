@@ -1,25 +1,25 @@
 This repository is note from watching video [Google Cloud Machine Learning Engineer Certification Prep](https://www.udemy.com/course/google-cloud-machine-learning-engineer-certification-prep/).
 
-> Building models in google cloud:
+Building models in google cloud:
 + Cloud AutoML
 + AI platform training
 + Kubeflow
 + Dataproc and Spar kML
 + BigQuery ML
 
-> To deploying ML model, we need:
+To deploying ML model, we need:
 + ML services
 + Containers
 + Orchestration
 
-> Step to production:
+Step to production:
 + Wrap our model in a service > endpoint as output
 + Containerization
 + Deploy and orchestration > google cloud provides CLoud Run and Kubernetes Engine for running containers. Cloud Run good for small number of containers.
 
-> Comprehensive ML platforms: Kubeflow and VertexAI.
+Comprehensive ML platforms: Kubeflow and VertexAI.
 
-> Service in VertexAI:
+Service in VertexAI:
 + Datasets
 + Feature store
 + Workbences > manage notebook and user manage notebook. In user manage notebook, we can setting the environment.
@@ -38,7 +38,7 @@ This repository is note from watching video [Google Cloud Machine Learning Engin
     + Dataflow > horizontally scalable, managed service, and supports windowing operations. Windowing operations especially important when we working with streaming data and time series data. 
     + Dataproc > managed Spark and Hadoop service. Dataproc often used for ETL and ELT. When we use Dataproc, we often create ephemeral clusters. Epheremal clusters means we start cluster when we need we run a job and then we shutdown the cluster.
 
-> Virtual machines:
+Virtual machines:
 + Compute engine > we can configure virtual machine.
 + Managed instance groups allow us to work with multiple identical virtual machines.
 + Containers > Cloud Run and Kubernetes Engine.
@@ -50,11 +50,11 @@ This repository is note from watching video [Google Cloud Machine Learning Engin
         + Large scale container deployments.
         + We have control over cluster.        
 
-> GPUs and TPUs: GPUs is for higher precision than TPUs.
+GPUs and TPUs: GPUs is for higher precision than TPUs.
 
-> The courses also cover basic data preparation for machine learning and building machine learning models. I skip these parts because they are not relevant to me.
+The courses also cover basic data preparation for machine learning and building machine learning models. I skip these parts because they are not relevant to me.
 
-> Training machine learning: 
+Training machine learning: 
 
 + Hyperparameter tuning: please remember that hyperparameters are not learned! "Tune" means finding which combinations are the best. Methods that we can use include Grid Search, Random Search, and Bayesian Search. Bayesian Search is sequential model-based optimization. It use previous iteration to improve current iteration.
 + Unit tests: tests that run automatically in the CI/CD pipeline to prevent deploying an broken model. For example, feature engineering functionality, encoding inputs, custom modules, and output types.
@@ -69,15 +69,15 @@ This repository is note from watching video [Google Cloud Machine Learning Engin
 
     Reduce training time with reduction server allow us to communicating gradients (when training model) between nodes. Reduction server requires use of GPUs. 
 
-> Serving options: use pre-built containers like TensorFlow, tensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
+Serving options: use pre-built containers like TensorFlow, tensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also use custom containers. Vertex Sevice AI Agent is Google managed service acoount, has sufficient permissions to work with custom containers.
     + NVIDIA Triton is an open source inference serving platform optimized for CPUs and GPUs. VertexAI Prediction runs in custom container published by NVIDIA. These supports TensorFlow, PyTorch, TensorRT, Scikit-learn, and XGBoost.
     + Optimized TensorFlow Runtime allow us to run TensorFlow models at lower cost and latecy than open source pre-built TensorFlow containers.
 
-> Prediction services: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
+Prediction services: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
 
-> Monitoring: VertexAI model monitors predicition input data fro skew and drift. **Skew** ㅡ feature data distribution in production deviates from training. **Drift** ㅡ feature data distribution in production changes significantly over time. Scope of monitoring: supports skew and drift detection for categorical and numerical features. Skew based on training data, meanwhile drfit based on recent past production data. When distance score between distributions exceed specified thresold identify as skew or drift. 
+Monitoring: VertexAI model monitors predicition input data fro skew and drift. **Skew** ㅡ feature data distribution in production deviates from training. **Drift** ㅡ feature data distribution in production changes significantly over time. Scope of monitoring: supports skew and drift detection for categorical and numerical features. Skew based on training data, meanwhile drfit based on recent past production data. When distance score between distributions exceed specified thresold identify as skew or drift. 
 
-> Optimizing training pipeline: 
+Optimizing training pipeline: 
 + Data processing:
     + If our data already in BigQuery and we use TensorFlow, we can use the BigQueryClient to access the data.
     + Keep in mind with BigQuery, our costs are in part based on how much data you scan. So use partition tables so we can minimize the amount of data scanned. 
