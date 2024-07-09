@@ -112,7 +112,7 @@ Encoding data: useful for categorical data, have several types including one-hot
 Feature selection: reduce the number of features to improve performance. 
 + Numeric input - numeric output:
     + Pearson's Correlation: linear relationship, ratio between covariance of two variables and product of standard deviation.
-    + Spearman's Rank COefficient: non-linear relationship, based on rank value of two variables, high when variables have similar ranks.
+    + Spearman's Rank Coefficient: non-linear relationship, based on rank value of two variables, high when variables have similar ranks.
 + Numeric input - categorical output (and vice versa):
     + ANOVA: linear relationship, difference among means.
     + Kendall's Rank Coefficient: non-linear relationship, ordinal association, rank correlation.
