@@ -15,7 +15,7 @@ To deploying ML model, we need:
 Step to production:
 + Wrap our model in a service > endpoint as output
 + Containerization
-+ Deploy and orchestration > google cloud provides CLoud Run and Kubernetes Engine for running containers. Cloud Run good for small number of containers.
++ Deploy and orchestration > google cloud provides Cloud Run and Kubernetes Engine for running containers. Cloud Run good for small number of containers.
 
 Comprehensive ML platforms: Kubeflow and VertexAI.
 
