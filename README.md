@@ -157,14 +157,20 @@ Handling missing data:
 + Last observed value carried forward: use last known value. Useful for time series. 
     + Variations: moving average and linear interpolation.
 
-Handling outliers: instances that are significantly different from ither instances. Causes:
-    + Data entry errors.
-    + Measurement errors.
-    + Data processing errors.
-    + Sampling errors.
-    + Naturally.
+Handling outliers: instances that are significantly different from ither instances. Caused by data entry errors, measurement errors, data processing errors, sampling errors, and naturally.
 
 Problems with outliers:
 + Increases variance.
 + Violate assumptionsof some statistical tests such regression and ANOVA.
 + Exception: outliers may be anomalies we want to detect.
+
+Ways to engineer features:
++ Transform existing feature: like map numberic variable to a scale of 0 to 1.
++ Bucketing: like creating subgroups of feature values.
++ Feature cross:
+    + Cartesian product of two or more features.
+    + Helps with non-linear relationships.
++ Binary features
++ Decompose values to parts
++ One-hot encoding
++ Normalization: convert numeric values to a standard. Tipically 0 to 1. 
