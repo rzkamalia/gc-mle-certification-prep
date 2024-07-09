@@ -164,6 +164,12 @@ Problems with outliers:
 + Violate assumptionsof some statistical tests such regression and ANOVA.
 + Exception: outliers may be anomalies we want to detect.
 
+Data leakage: training data contains additional information that was unintended and not available during prediciton.
+
+Two types of data leakage:
++ Data leakage in training: like performing normalization, standardization using full datasets instead of training set only.
++ Data leakage in features: proxy variables not removed.
+
 Ways to engineer features:
 + Transform existing feature: like map numberic variable to a scale of 0 to 1.
 + Bucketing: like creating subgroups of feature values.
