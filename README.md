@@ -52,6 +52,80 @@ Comprehensive ML platforms: Kubeflow and VertexAI.
 
 GPUs and TPUs: GPUs is for higher precision than TPUs.
 
+**File format for training data**:
++ Columnar file formats: 
+    + Data stored in column orientation.
+    + Allows for highly effective compression.
+    + Examples: parquet, orc, and petastorm (petastorm supports multi-dimensional data).
++ Tabular text file formats:
+    + Comma separated values (CSV).
+    + Widely used, easy to view and debug.
+    + No support for data types.
+    + Inefficient at large scales.
++ Nested file formats:
+    + Stores instances in hierarchical format.
+    + Records have one parent, zero or more children.
+    + Plain text: json and xml.
+    + Binary: protocol buffers and avro.
+    + TFRecords used in TensorFlow, based on protobuf.
++ Array-based file formats:
+    + Supports vectorization.
+    + NumPy is a binary format. 
++ Hierarchical file formats:
+    + Supports heterogeneous, complex datasets.
+    + Examples: HDF5 and NetCDF.
+    + HDF used when data does not map to columnar formats well, for example medical data.
+    + NetCDF popular in climate science and astronomy.
+
+**Risks to successful ML model development**:
++ Data risks: 
+    + Insufficient data
+    + Data quality issues
+    + Biased data: missing data, inconsistent labeling
+    + Data poisoning (security risk)
++ Process risks:
+    + Poor problem-model fit
+    + Insufficiently agreed upon objectives
+    + Unrealistic expectations
+    + Insufficient funding
+    + Data privacy and confidentiality
+
+**Feature attributions**: indicates how much a feature contributes to a prediction. Features have attribution scores that shows how much feature affected the change in prediction value. 
++ Use Approximate Nearest Neighbor Service:
+    + Mislabeled examples > look for examples in the training data where similar examples have a different label.
+    + Active learning > look for unlabeled examples where neighbors have a variety of labels. Label these and add them to the training data.
+    + Misclassification analysis > look at examples from the training set that are 'nearby' the misclassified instance to identify if new data is needed or existing examples are mislabeled/noisy.
+    + Decision support > provide a rationale for an ML-generated prediction/decision by surfacing previous relevant predictions or similar data points. 
+
+**Transfer learning**:
++ Inductive transfer learning: 
+    + Same source and target domains, different tasks.
+    + Use knowledge from prior task and apply to new task.
+    + Trained model has knowledge of domain.
++ Transductive transfer learning:
+    + Same source and target not the same domains but interrelated.
+    + Derive similarities between source and target.
+    + Source domain has labelled examples, target domain does not.
++ Unsupervised transfer learning:
+    + Similar to inductive transfer learning but both source and taget domains have unlabeled datasets.
+
+Troubleshooting models:
++ Underfitting:
+    + Model performs poorly on training and validation data. 
+    + To correct undefitting: increasing the complexity of the model, increase training time and epochs.
++ Overfitting:
+    + Model performs well on training data and pooly on validation data,
+    + To correct overfitting: regularization which limits information captured.
++ Bias and variance:
+    + Bias error is result of missing relationship between features and labels.
+    + Didn't sufficiently generalize from training data.
+    + Variance error is due to sensitivity in small fluctuations in the training data.
+    + Variance is the difference among a set of predictions.
+
+    <img src="assets/bias-variance.png" width="50%"/> 
+
+    Note: blue points is the predictions. [[source image](https://towardsdatascience.com/bias-and-variance-in-linear-models-e772546e0c30)]
+
 **Training machine learning**: 
 + Hyperparameter tuning: please remember that hyperparameters are not learned! "Tune" means finding which combinations are the best. Methods that we can use include Grid Search, Random Search, and Bayesian Search. Bayesian Search is sequential model-based optimization. It use previous iteration to improve current iteration.
 + Unit tests: tests that run automatically in the CI/CD pipeline to prevent deploying an broken model. For example, feature engineering functionality, encoding inputs, custom modules, and output types.
@@ -66,6 +140,13 @@ GPUs and TPUs: GPUs is for higher precision than TPUs.
 
     Reduce training time with reduction server allow us to communicating gradients (when training model) between nodes. Reduction server requires use of GPUs. 
 
+**Model evaluation**: 
++ Accuracy > the number of correctly predicted data points.
++ Precision > a measure of how many of the positive predictions made are correct (true positives).
++ Recall > a measure of how many of the positive cases the classifier correctly predicted, over all the positive cases in the data.
++ F1 Score > a harmonic mean pf precision and recall.
++ ROC curve plots the true positive rate (TPR) against the false positive rate (FPR) at various classification thresholds.
+
 **Serving options**: we can use pre-built containers like TensorFlow, TensorFlow Optimized Runtime, Scikit-learn, and XGBoost. We can optionally configure those machines including use GPUs, number of Virtual CPUs per node, and memory per node. We also can use custom containers. The requirements for a custom container with VertexAI:
 + Provide a docker container image running HTTP server.
 + Responds to health checks, liveness checks, and predicition requests.
@@ -79,6 +160,39 @@ Other example of pre-build containers:
 **Prediction services**: VertexAI allocates nodes for online and batch predictions. Online prediction (synch) have endpoint, and batch prediction (asynch) run as jobs.
 
 **Monitoring**: VertexAI model monitors predicition input data fro skew and drift. **Skew** ㅡ feature data distribution in production deviates from training. **Drift** ㅡ feature data distribution in production changes significantly over time. Scope of monitoring: supports skew and drift detection for categorical and numerical features. Skew based on training data, meanwhile drfit based on recent past production data. When distance score between distributions exceed specified thresold identify as skew or drift. 
+
+Some guidelines to make sure that we detect bias data distribution:
++ Detect biased data distribution, not representative of the population.
++ Biased data representation, such as negative reviews being more frewuent in one gender than another.
++ Proxy variables, for example home location correlating with income.
+
+Troubleshooting models:
++ Model performs poorly on training and validation data.
++ Correct for underfitting: increasing the complexity of the model, increase training time
+
+**ML security**:
++ Data security:
+    + Encryption.
+    + Role based access controls.
+    + Data lifecycle management.
++ Model training security:
+    + Role based access controls to models and pipelines.
+    + Audit logs.
++ Sensitive data:
+    + Data that requires additional security measures: encryption and restricted access controls.
+    + Challenges:
+        + Role based security oriented toward ownership.
+        + ML engineers need view access to entire datasets.
+        + Reducing resolution of data may be insufficient.
+        + Removing sensitive data can degrade model performance. 
++ Identifying sensitive data:
+    + Data in structured databases and datasets: goverment IDs and credit card numbers.
+    + Data in unstructured data: notes in electronic patient records and faces in images.
+    + Data in combination of fields: multiple reduced resolution fields, and frequency analysis.
++ Protecting sensitive data:
+    + Remove
+    + Masking: substitution cipher, tokenization, PCA.
+    + Coarsening: locations, postal codes, numeric quantities, IP addresses.
 
 **Optimizing pipeline**: 
 + Data processing:
@@ -180,3 +294,12 @@ Ways to engineer features:
 + Decompose values to parts
 + One-hot encoding
 + Normalization: convert numeric values to a standard. Tipically 0 to 1. 
+
+### Note exercise
++ Diagflow > is a natural language understanding platform that makes it easy to design and integrate a conversational user interface into your mobile app, web application, device, bot, interactive voice response system, and so on. Using Dialogflow, you can provide new and engaging ways for users to interact with your product. Dialogflow can analyze multiple types of input from your customers, including text or audio inputs (like from a phone or voice recording). It can also respond to your customers in a couple of ways, either through text or with synthetic speech.
+
++ AutoML Tables: uses structured data to build models with little input from users.
+
++ There is no Bigtable ML but BigQuery ML is a managed service for building machine learning models in BigQuery using SQL.
+
++ Managed datasets in VertexAI provided which of the following benefits: in a central location, create labels, and annotations only. 
